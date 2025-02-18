@@ -1,20 +1,16 @@
-import { getMetadata } from '../../scripts/aem.js';
-import { loadFragment } from '../fragment/fragment.js';
+import { getMetadata, getExperienceFragment } from '../../scripts/aem.js';
 
 /**
  * loads and decorates the footer
  * @param {Element} block The footer block element
  */
 export default async function decorate(block) {
-  // load footer as fragment
-  const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const fragment = await loadFragment(footerPath);
 
-  // decorate footer DOM
-  block.textContent = '';
-  const footer = document.createElement('div');
-  while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  const footerContent = await getExperienceFragment('https://www-dev.blackduck.com/content/experience-fragments/black-duck/en-us/global/sig/sig-footer-js/master/jcr:content/root.html');
 
-  block.append(footer);
+  const navWrapper = document.createElement('div');
+  navWrapper.className = 'footer-wrapper';
+  navWrapper.id = 'footerSIG';
+  navWrapper.innerHTML = footerContent;
+  block.append(navWrapper);
 }

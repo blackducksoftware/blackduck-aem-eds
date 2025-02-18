@@ -704,6 +704,12 @@ async function loadSections(element) {
   }
 }
 
+async function getExperienceFragment(fragmentPath) {
+
+  const response = await fetch(fragmentPath);
+  return await response.text();
+}
+
 init();
 
 export {
@@ -731,4 +737,5 @@ export {
   toClassName,
   waitForFirstImage,
   wrapTextNodes,
+  getExperienceFragment,
 };

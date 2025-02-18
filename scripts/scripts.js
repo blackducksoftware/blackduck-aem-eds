@@ -11,6 +11,7 @@ import {
   loadSection,
   loadSections,
   loadCSS,
+  loadScript,
 } from './aem.js';
 
 /**
@@ -99,6 +100,11 @@ async function loadLazy(doc) {
   const main = doc.querySelector('main');
   await loadSections(main);
 
+  // add header/footer css
+  loadScript('https://kit.fontawesome.com/5126b7755f.js');
+  loadCSS(`https://www.blackduck.com/etc.clientlibs/synopsys/clientlibs/navigation/header.min.css`);
+  loadCSS(`https://www.blackduck.com/etc.clientlibs/synopsys/clientlibs/navigation/footer.min.css`);
+
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
@@ -118,6 +124,12 @@ function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
+  window.setTimeout(() => {
+    loadScript('https://www.blackduck.com/etc.clientlibs/synopsys/clientlibs/custom-jquery.min.js');
+  }, 1000);
+  window.setTimeout(() => {
+    loadScript('https://www.blackduck.com/etc.clientlibs/synopsys/clientlibs/navigation/header.min.js');
+  }, 3000);
 }
 
 async function loadPage() {
